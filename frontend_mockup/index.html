@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Learning Assistant</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Personalized Learning Assistant</h1>
+
+    <h2>Upload Student Work (Image)</h2>
+    <input type="file" id="imageInput">
+
+    <h2>Enter Student Answer (Text)</h2>
+    <textarea id="textInput" rows="4" cols="50"></textarea>
+
+    <h2>Recommendation</h2>
+    <button onclick="recommendContent()">Get Recommendation</button>
+    <p id="recommendationOutput"></p>
+
+    <h2>Progress Chart</h2>
+    <canvas id="progressChart" width="400" height="200"></canvas>
+
+    <h2>Chatbot Assistant</h2>
+    <div id="chatbot">
+        <input type="text" id="chatInput" placeholder="Ask me anything...">
+        <button onclick="sendMessage()">Send</button>
+        <div id="chatHistory"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        function recommendContent() {
+            let text = document.getElementById('textInput').value.toLowerCase();
+            if (text.includes('weak') || text.includes('low')) {
+                document.getElementById('recommendationOutput').innerText = "Recommendation: Easier Content";
+            } else if (text.includes('excellent') || text.includes('high')) {
+                document.getElementById('recommendationOutput').innerText = "Recommendation: Advanced Content";
+            } else {
+                document.getElementById('recommendationOutput').innerText = "Recommendation: Keep Current Level";
+            }
+        }
+
+        function sendMessage() {
+            let userMessage = document.getElementById('chatInput').value;
+            let chatHistory = document.getElementById('chatHistory');
+            chatHistory.innerHTML += `<p><strong>You:</strong> ${userMessage}</p>`;
+            chatHistory.innerHTML += `<p><strong>Bot:</strong> Thanks for your message!</p>`;
+            document.getElementById('chatInput').value = '';
+        }
+
+        const ctx = document.getElementById('progressChart').getContext('2d');
+        const progressChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                datasets: [{
+                    label: 'Student Progress',
+                    data: [60, 65, 70, 80],
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+    </script>
+</body>
+</html>
